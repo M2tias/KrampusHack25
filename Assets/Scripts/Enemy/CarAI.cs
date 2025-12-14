@@ -38,7 +38,7 @@ public class CarAI : MonoBehaviour
 
     private Vector3 PostionToFollow = Vector3.zero;
     private int currentWayPoint;
-    private float AIFOV = 60;
+    private float AIFOV = 360;
     private bool allowMovement;
     private int NavMeshLayerBite;
     private List<Vector3> waypoints = new List<Vector3>();
@@ -157,7 +157,7 @@ public class CarAI : MonoBehaviour
             if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 150, 1 << NavMesh.GetAreaFromName(NavMeshLayers[0])) &&
                 NavMesh.CalculatePath(sourcePostion, hit.position, NavMeshAreaByte, path) && path.corners.Length > 2)
             {
-                if (CheckForAngle(path.corners[1], sourcePostion, direction))
+                if (true) // CheckForAngle(path.corners[1], sourcePostion, direction))
                 {
                     waypoints.AddRange(path.corners.ToList());
                     debug("Random Path generated successfully", false);
@@ -206,6 +206,7 @@ public class CarAI : MonoBehaviour
             if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 150, NavMeshAreaBite) &&
                 NavMesh.CalculatePath(sourcePostion, hit.position, NavMeshAreaBite, path))
             {
+                debug(path.corners.ToList().Count() + "", false);
                 if (path.corners.ToList().Count() > 1) // && CheckForAngle(path.corners[1], sourcePostion, direction))
                 {
                     waypoints.AddRange(path.corners.ToList());
@@ -213,7 +214,7 @@ public class CarAI : MonoBehaviour
                 }
                 else
                 {
-                    if (path.corners.Length > 2 && CheckForAngle(path.corners[2], sourcePostion, direction))
+                    if (path.corners.Length > 2) // && CheckForAngle(path.corners[2], sourcePostion, direction))
                     {
                         waypoints.AddRange(path.corners.ToList());
                         debug("Custom Path generated successfully", false);

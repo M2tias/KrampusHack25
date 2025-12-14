@@ -33,6 +33,8 @@
     ☐ Driving out of map -> GG
     ☐ Map area gets smaller over time -> outside DoT
     ☐ Drop loot everywhere, later game better loot
+    ☐ Water is blocked except bridges
+        ☐ Manual colliders?
 ☐ UI
     ☐ Minimap
     ☐ Current weapon(s)
@@ -41,7 +43,7 @@
     ☐ Shield
 ☐ 3D models
     ☐ Car
-    ☐ Shield
+    ✔ Shield @done(25-12-07 21:23)
     ☐ Guns
     ☐ Ramming spikes?
     ☐ Different tiers, or just color?
@@ -51,3 +53,38 @@
     ☐ Sand/mud
     ☐ Ramp?
     ☐ Buildings
+☐ AI car logic
+    ☐ Knows every loot spot
+        ☐ When spot is looted / visited if empty, cross it out until resupplied
+    ☐ Maybe some premade routes/waypoints?
+    ☐ Starts in looting mode
+        ☐ Choose random loot spot close by
+        ☐ Picks a random position close to a loot spot
+            ☐ Maybe pick a range, if outside that pick a random spot between closest spot and the AI
+        ☐ When close to a loot spot, drive to that spot
+        ☐ Check if the roaming mode of car AI could be used to do a "routine check" after looting
+        ☐ Pick next looting spot unless every slot has something
+            ☐ Go to finding mode
+        ☐ If sees an enemy and has gun, goes to attacking mode
+        ☐ If no gun and sees enemy, goes to fleeing mode
+    ☐ Attacking mode
+        ☐ Drive at the target
+        ☐ If close to ATTACK RANGE and target is facing, try to drive around
+        ☐ If at ATTACK RANGE and has gun, shoot
+        ☐ If no gun but spikes, drive straight at the enemy
+        ☐ If no weapons, go fleeing mode
+    ☐ Fleeing mode
+        ☐ Drive away from target
+        ☐ ????
+    ☐ Finding mode
+        ☐ Pick a not-visited loot spot far away
+        ☐ Drive toward that spot
+        ☐ Somehow look for enemies on the way
+        ☐ If sees an enemy and has gun, goes to attacking mode
+        ☐ At the loot spot "routine check"?? and then pick another loot spot
+    ☐ Steering logic
+        ☐ Setting a custom waypoint makes the car try to go straight there
+            ☐ Generate waypoints between car and the custom waypoint?
+            ☐ Make the car backup and turn so it can see the waypoint?
+        ☐ Car slows down when closing the waypoint, make it possible for the car to drive full-on at the waypoint
+        ☐ 
