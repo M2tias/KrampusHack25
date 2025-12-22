@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class CharacterSpawner : MonoBehaviour
 {
+    public static CharacterSpawner main;
+
+    public List<GameObject> Enemies { get { return enemies; } }
+
     private List<Transform> spawnPoints = new();
     private List<Transform> freeSpawnPoints = new();
 
@@ -12,6 +16,20 @@ public class CharacterSpawner : MonoBehaviour
     private List<GameObject> enemyPrefabs;
     [SerializeField]
     private int numberOfEnemies;
+
+    private List<GameObject> enemies = new();
+
+    void Awake()
+    {
+        if (main != null)
+        {
+            Debug.LogError("One character spawner already exists!");
+            Destroy(gameObject);
+            return;
+        }
+
+        main = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,7 +54,26 @@ public class CharacterSpawner : MonoBehaviour
             int enemySpawnPos = Random.Range(0, freeSpawnPoints.Count);
             enemy.transform.position = freeSpawnPoints[enemySpawnPos].position;
             freeSpawnPoints.RemoveAt(enemySpawnPos);
+            enemies.Add(enemy);
         }
+
+        enemies.AddRange(FindGameObjectsWithLayer(LayerMask.NameToLayer("Enemy")));
+    }
+
+    List<GameObject> FindGameObjectsWithLayer(int layer)
+    {
+        var goArray = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        var goList = new List<GameObject>();
+
+        for (var i = 0; i < goArray.Length; i++)
+        {
+            if (goArray[i].layer == layer)
+            {
+                goList.Add(goArray[i]);
+            }
+        }
+
+        return goList;
     }
 
     // Update is called once per frame

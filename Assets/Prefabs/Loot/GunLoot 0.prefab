@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4143579234046851670}
   - component: {fileID: 1108407877133966177}
   - component: {fileID: 5220970442798649638}
+  - component: {fileID: 1304827308285421193}
   m_Layer: 0
   m_Name: GunLoot 0
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickup
   data:
-    LootLevel: 0
+    LootLevel: 1
     LootType: 3
 --- !u!65 &5220970442798649638
 BoxCollider:
@@ -86,6 +87,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1304827308285421193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732767475332791241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce711517b6b8c1b0997972bda6972c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootAnimation
+  model: {fileID: 599210686265305393}
+  heightDif: 0.3
+  heightSpeed: 1.75
+  rotationSpeed: 0.4
 --- !u!1001 &1142343707665321690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,7 +117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 33d0c4c1aa85f1fdc83e933a2f9b7a86, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 33d0c4c1aa85f1fdc83e933a2f9b7a86, type: 3}
       propertyPath: m_LocalPosition.z

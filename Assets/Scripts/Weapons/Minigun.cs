@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Minigun : MonoBehaviour
+public class Minigun : MonoBehaviour, IWeapon
 {
     [SerializeField]
     private PoolType pooledPrefabType;

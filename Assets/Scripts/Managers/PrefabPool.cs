@@ -82,5 +82,7 @@ public class PrefabPool : MonoBehaviour
 
 public enum PoolType
 {
-    Bullet
+    Bullet,
+    Rocket,
+    Mine
 }

@@ -5,10 +5,12 @@ public class CharacterLoot : MonoBehaviour
 {
     private Dictionary<LootType, PickupData> pickedUpLoot = new();
 
+    private Hp hp;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        hp = GetComponent<Hp>();
     }
 
     // Update is called once per frame
@@ -31,17 +33,27 @@ public class CharacterLoot : MonoBehaviour
     {
         if (maybeLoot.gameObject.TryGetComponent(out Pickup pickup))
         {
-            if (pickedUpLoot.TryGetValue(pickup.LootType, out PickupData oldPickup))
+            if (pickup.LootType == LootType.Health)
+            {
+                if (!hp.IsMaxHP())
+                {
+                    hp.IncreaseHP(pickup.LootLevel);
+                    Destroy(maybeLoot.gameObject);
+                }
+            }
+            else if (pickedUpLoot.TryGetValue(pickup.LootType, out PickupData oldPickup))
             {
                 if (pickup.LootLevel > oldPickup.LootLevel)
                 {
                     pickedUpLoot[pickup.LootType] = pickup.Data;
                     Destroy(maybeLoot.gameObject);
+                    UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
                 }
             }
             else
             {
                 pickedUpLoot.Add(pickup.LootType, pickup.Data);
+                UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
                 Destroy(maybeLoot.gameObject);
             }
         }

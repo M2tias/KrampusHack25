@@ -5,6 +5,11 @@ public class LootSpawner : MonoBehaviour
 {
     [SerializeField]
     private List<GameObject> lootPrefabs;
+    [SerializeField]
+    private List<GameObject> lootPrefabDebugSet;
+    [SerializeField]
+    private bool useDebugSet;
+
     private List<Transform> lootSpawnPoints = new();
     private List<Transform> freeSpawnPoints = new();
     private List<GameObject> spawnedLoot = new();
@@ -12,6 +17,10 @@ public class LootSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (useDebugSet) {
+            lootPrefabs = lootPrefabDebugSet;
+        }
+        
         foreach (Transform point in transform)
         {
             lootSpawnPoints.Add(point);
@@ -42,5 +51,8 @@ public enum LootType {
     Health,
     Shield,
     RammingSpike,
-    Minigun
+    Minigun,
+    Tires,
+    Rockets,
+    Mines
 }
