@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI hpValue;
 
+    [SerializeField]
+    private Speedometer speedometer;
+
     private Dictionary<LootType, int> itemLevels = new();
     private Dictionary<LootType, InventoryIcon> itemUIElements = new();
 
@@ -65,6 +68,11 @@ public class UIManager : MonoBehaviour
         itemLevels[itemType] = lvl;
         InventoryIcon uiElement = itemUIElements[itemType];
         uiElement.gameObject.SetActive(true);
+    }
+
+    public void SetSpeed(float speed)
+    {
+        speedometer.SetSpeed(speed);
     }
 
     public void SetPlayerHP(float HP)

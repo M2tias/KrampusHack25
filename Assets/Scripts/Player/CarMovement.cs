@@ -135,6 +135,8 @@ public class CarMovement : MonoBehaviour
 
         applyAntiroll(frontLeft, frontRight, frontAntiRoll);
         applyAntiroll(backLeft, backRight, backAntiRoll);
+        Debug.Log("Car velocity: " +rb.linearVelocity.magnitude);
+        UIManager.main.SetSpeed(rb.linearVelocity.magnitude);
     }
 
     private void applyAntiroll(WheelCollider leftWheel, WheelCollider rightWheel, float antiRollAmount)
