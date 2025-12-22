@@ -9838,10 +9838,10 @@ MonoBehaviour:
   lootPrefabDebugSet:
   - {fileID: 2169445012855734175, guid: ed663b080c0c5cec7a61714bf1304db1, type: 3}
   - {fileID: 5752402755389475843, guid: 2dca6044e78ade7ecaf82132470c1b53, type: 3}
-  - {fileID: 2524904647082348500, guid: 3a388be8ecbc9b405bb58886e5d6a6cc, type: 3}
-  - {fileID: 6505406430004027557, guid: 4c98c1141114e6a508e22e38ae4bf910, type: 3}
-  - {fileID: 6505406430004027557, guid: 2d3a26b95e32b9881921088353bea492, type: 3}
-  - {fileID: 6505406430004027557, guid: a625436a47fb4c9869ffbdb9dbbcb2fa, type: 3}
+  - {fileID: 4501766749100852687, guid: 965e05c4cc1387ce29f2840328737180, type: 3}
+  - {fileID: 435181451854786812, guid: 56df646da130b8a13bec6ddd538e889b, type: 3}
+  - {fileID: 9191630104967502510, guid: 2ea08d3c60996595c8eed270ca6b7396, type: 3}
+  - {fileID: 7465743222979765612, guid: 946d2010588b00fa88527edec8e1e5fc, type: 3}
   useDebugSet: 1
 --- !u!1001 &878135534
 PrefabInstance:

@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class Mine : MonoBehaviour
 {
-    private float damage;
+    [SerializeField]
+    private float deployTime;
 
-    void Init(float dmg)
+    private float damage;
+    private float deploymentStarted;
+    private bool isActive = false;
+
+    public void Init(float dmg)
     {
         damage = dmg;
+        deploymentStarted = Time.time;
         // TODO: handle positioning when deployed
         // Five raycasts to determine angle on hills?
     }
@@ -18,11 +24,20 @@ public class Mine : MonoBehaviour
 
     void Update()
     {
-
+        if (Time.time - deploymentStarted > deployTime)
+        {
+            isActive = true;
+            // TODO: make a sound
+        }
     }
 
     void OnTriggerEnter(Collider c)
     {
+        if (!isActive)
+        {
+            return;
+        }
+
         Hp hp = c.gameObject.GetComponent<Hp>();
         hp.DoDamage(damage);
         // TODO: particles

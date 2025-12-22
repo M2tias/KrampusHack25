@@ -3,18 +3,27 @@ using UnityEngine.InputSystem;
 
 public class Shooting : MonoBehaviour
 {
-    InputAction shootAction;
-    InputAction weapon1Action;
+    [SerializeField]
+    private GameObject spikeModel;
 
-    InputAction weapon2Action;
+    private InputAction shootAction;
+    private InputAction weapon1Action;
 
-    InputAction weapon3Action;
+    private InputAction weapon2Action;
+
+    private InputAction weapon3Action;
 
 
-    Minigun minigun;
-    RocketLauncher rocketLauncher;
-    IWeapon currentWeapon = null;
-    CharacterLoot loot;
+    private Minigun minigun;
+    private RocketLauncher rocketLauncher;
+    private MineDeployer mineDeployer;
+    private RammingSpikes spikes;
+
+    private IWeapon currentWeapon = null;
+    private CharacterLoot loot;
+    private Rigidbody rb;
+
+    private bool hasSpikes = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,7 +34,10 @@ public class Shooting : MonoBehaviour
         weapon3Action = InputSystem.actions.FindAction("Weapon3");
         minigun = GetComponent<Minigun>();
         rocketLauncher = GetComponent<RocketLauncher>();
+        mineDeployer = GetComponent<MineDeployer>();
         loot = GetComponent<CharacterLoot>();
+        spikes = spikeModel.GetComponent<RammingSpikes>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -50,7 +62,15 @@ public class Shooting : MonoBehaviour
         else if (weapon3Action.WasPerformedThisFrame() && loot.GetPickupLevel(LootType.Mines) > 0)
         {
             Debug.Log("Use mines");
-            currentWeapon = null; // TODO: mines
+            currentWeapon = mineDeployer;
+        }
+
+        if (!hasSpikes)
+        {
+            hasSpikes = loot.GetPickupLevel(LootType.RammingSpike) > 0;
+            spikeModel.SetActive(hasSpikes);
+        } else {
+            spikes.SetSpeed(rb.linearVelocity.magnitude);
         }
     }
 }
