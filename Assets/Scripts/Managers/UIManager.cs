@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Speedometer speedometer;
+    [SerializeField]
+    private MinimapCompass compass;
 
     private Dictionary<LootType, int> itemLevels = new();
     private Dictionary<LootType, InventoryIcon> itemUIElements = new();
@@ -56,6 +58,8 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 camDir = Camera.main.transform.forward;
+        compass.UpdateCompassDir(new Vector2(camDir.x, camDir.z));
     }
 
     public int GetItemLevel(LootType itemType)

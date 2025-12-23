@@ -27,7 +27,6 @@ public class Speedometer : MonoBehaviour
     {
         float t = Mathf.Clamp((currentSpeed - minSpeed) / (maxSpeed - minSpeed), 0, 1);
         speedometerArm.rotation = Quaternion.Slerp(minRotation, maxRotation, t);
-        Debug.Log($"Speedometer: {minRotation} | {maxRotation} | s {t} rot {speedometerArm.transform.rotation}");
     }
 
     public void SetSpeed(float speed)
