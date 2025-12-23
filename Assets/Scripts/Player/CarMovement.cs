@@ -23,6 +23,8 @@ public class CarMovement : MonoBehaviour
     private float frontAntiRoll;
     [SerializeField]
     private float backAntiRoll;
+    [SerializeField]
+    private bool isAI;
 
     private readonly float breakingForce = 300f;
     private readonly float maxTurnAngle = 30f;
@@ -59,8 +61,11 @@ public class CarMovement : MonoBehaviour
 
     void Update()
     {
-        moveVector = moveAction.ReadValue<Vector2>();
-        isBreaking = breakAction.IsPressed();
+        if (!isAI)
+        {
+            moveVector = moveAction.ReadValue<Vector2>();
+            isBreaking = breakAction.IsPressed();
+        }
 
         int tireLevel = loot.GetPickupLevel(LootType.Tires);
 
@@ -73,6 +78,11 @@ public class CarMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isAI)
+        {
+
+        }
+
         currentAcceleration = acceleration * moveVector.y;
 
         if (isBreaking)
@@ -100,7 +110,7 @@ public class CarMovement : MonoBehaviour
         backRight.brakeTorque = currentBreakForce;
         backLeft.brakeTorque = currentBreakForce;
 
-        currentTurnAngle = maxTurnAngle * (-1) * moveVector.x;
+        currentTurnAngle = maxTurnAngle * moveVector.x;
         frontRight.steerAngle = currentTurnAngle;
         frontLeft.steerAngle = currentTurnAngle;
 
