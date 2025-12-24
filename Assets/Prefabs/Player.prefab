@@ -148,6 +148,8 @@ MonoBehaviour:
   frontRight: {fileID: 2419069220485744888}
   backLeft: {fileID: 9023507927803946873}
   backRight: {fileID: 2293551126125734946}
+  frontLeftModel: {fileID: 3712362525239550589}
+  frontRightModel: {fileID: 171546051108852305}
   accelerationLevel:
   - 700
   - 800
@@ -163,6 +165,7 @@ MonoBehaviour:
   centerOfMass: {fileID: 1122184176500277904}
   frontAntiRoll: 5000
   backAntiRoll: 5000
+  isAI: 0
 --- !u!114 &3810378794032414954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,7 +317,7 @@ GameObject:
   - component: {fileID: 6289255830052613097}
   - component: {fileID: 729115944947968094}
   m_Layer: 6
-  m_Name: Cylinder (3)
+  m_Name: FrontRightModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -494,7 +497,7 @@ GameObject:
   - component: {fileID: 6334044594307075280}
   - component: {fileID: 5154567889574954345}
   m_Layer: 6
-  m_Name: Cylinder (1)
+  m_Name: FrontLeftModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -926,7 +929,7 @@ GameObject:
   - component: {fileID: 1437090283026302740}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

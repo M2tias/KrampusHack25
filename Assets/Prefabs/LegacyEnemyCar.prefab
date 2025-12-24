@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 3436007523430840086}
   - component: {fileID: 6319470466874254643}
   m_Layer: 10
-  m_Name: EnemyCar
+  m_Name: LegacyEnemyCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

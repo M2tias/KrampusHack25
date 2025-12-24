@@ -6,11 +6,13 @@ public class CharacterLoot : MonoBehaviour
     private Dictionary<LootType, PickupData> pickedUpLoot = new();
 
     private Hp hp;
+    private bool isAI = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         hp = GetComponent<Hp>();
+        isAI = gameObject.tag == "Enemy";
     }
 
     // Update is called once per frame
@@ -47,13 +49,21 @@ public class CharacterLoot : MonoBehaviour
                 {
                     pickedUpLoot[pickup.LootType] = pickup.Data;
                     Destroy(maybeLoot.gameObject);
-                    UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
+
+                    if (!isAI)
+                    {
+                        UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
+                    }
                 }
             }
             else
             {
                 pickedUpLoot.Add(pickup.LootType, pickup.Data);
-                UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
+
+                if (!isAI)
+                {
+                    UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
+                }
                 Destroy(maybeLoot.gameObject);
             }
         }

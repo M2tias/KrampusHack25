@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class CarMovement : MonoBehaviour
@@ -14,6 +16,11 @@ public class CarMovement : MonoBehaviour
     WheelCollider backRight;
 
     [SerializeField]
+    Transform frontLeftModel;
+    [SerializeField]
+    Transform frontRightModel;
+
+    [SerializeField]
     private List<float> accelerationLevel;
     [SerializeField]
     private List<float> WheelLevelMaxRPMs;
@@ -23,10 +30,8 @@ public class CarMovement : MonoBehaviour
     private float frontAntiRoll;
     [SerializeField]
     private float backAntiRoll;
-    [SerializeField]
-    private bool isAI;
 
-    private readonly float breakingForce = 300f;
+    private readonly float breakingForce = 650f;
     private readonly float maxTurnAngle = 30f;
 
 
@@ -46,6 +51,10 @@ public class CarMovement : MonoBehaviour
     float upsideDownResetTime = 1f;
     private CharacterLoot loot;
     private Rigidbody rb;
+    private bool isAIGrounded = false;
+    private float aIAcceleration = 0f;
+    private float aITurnAngle = 0f;
+    private bool isAI = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -57,10 +66,27 @@ public class CarMovement : MonoBehaviour
         loot = GetComponent<CharacterLoot>();
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass.localPosition;
+        isAI = gameObject.tag == "Enemy";
+
+        if (isAI)
+        {
+            GetComponent<EnemyLogic>().enabled = false;
+            GetComponent<NavMeshAgent>().enabled = false;
+        }
     }
 
     void Update()
     {
+        if (isAI && !isAIGrounded)
+        {
+            bool isAIGrounded = new List<WheelCollider>() { frontLeft, frontRight, backLeft, backRight }.All(x => x.isGrounded);
+            if (isAIGrounded)
+            {
+                GetComponent<EnemyLogic>().enabled = true;
+                GetComponent<NavMeshAgent>().enabled = false;
+            }
+        }
+
         if (!isAI)
         {
             moveVector = moveAction.ReadValue<Vector2>();
@@ -80,12 +106,15 @@ public class CarMovement : MonoBehaviour
     {
         if (isAI)
         {
+            currentAcceleration = acceleration * aIAcceleration;
+        }
+        else
+        {
 
+            currentAcceleration = acceleration * moveVector.y;
         }
 
-        currentAcceleration = acceleration * moveVector.y;
-
-        if (isBreaking)
+        if (isBreaking || (isAI && aIAcceleration == 0))
         {
             currentBreakForce = breakingForce;
         }
@@ -110,16 +139,27 @@ public class CarMovement : MonoBehaviour
         backRight.brakeTorque = currentBreakForce;
         backLeft.brakeTorque = currentBreakForce;
 
-        currentTurnAngle = maxTurnAngle * moveVector.x;
-        frontRight.steerAngle = currentTurnAngle;
-        frontLeft.steerAngle = currentTurnAngle;
+        if (isAI)
+        {
+            currentTurnAngle = aITurnAngle;
+        }
+        else
+        {
+            currentTurnAngle = maxTurnAngle * moveVector.x;
+        }
 
-        bool upsideDown = Physics.Linecast(transform.position - transform.up * 0.15f, transform.position + transform.up * 0.3f, LayerMask.GetMask("Terrain"));
-        Debug.DrawLine(transform.position - transform.up * 0.15f, transform.position + transform.up * 0.3f, Color.red);
-        bool leftSideDown = Physics.Linecast(transform.position, transform.position + transform.right * -0.8f, LayerMask.GetMask("Terrain"));
-        Debug.DrawLine(transform.position, transform.position + transform.right * -0.8f, Color.red);
-        bool rightSideDown = Physics.Linecast(transform.position, transform.position + transform.right * 0.8f, LayerMask.GetMask("Terrain"));
-        Debug.DrawLine(transform.position, transform.position + transform.right * 0.8f, Color.red);
+        frontRight.steerAngle = currentTurnAngle;
+        frontRightModel.localRotation = Quaternion.Euler(0, currentTurnAngle, 90);
+        frontLeft.steerAngle = currentTurnAngle;
+        frontLeftModel.localRotation = Quaternion.Euler(0, currentTurnAngle, 90);
+        // if (isAI) Debug.Log($"Steering, angle {currentTurnAngle}");
+
+        bool upsideDown = Physics.Linecast(transform.position - transform.up * 0.3f, transform.position + transform.up * 1.2f, LayerMask.GetMask("Terrain"));
+        Debug.DrawLine(transform.position - transform.up * 0.3f, transform.position + transform.up * 1.2f, Color.red);
+        bool leftSideDown = Physics.Linecast(transform.position, transform.position + transform.right * -1.45f, LayerMask.GetMask("Terrain"));
+        Debug.DrawLine(transform.position, transform.position + transform.right * -1.45f, Color.red);
+        bool rightSideDown = Physics.Linecast(transform.position, transform.position + transform.right * 1.45f, LayerMask.GetMask("Terrain"));
+        Debug.DrawLine(transform.position, transform.position + transform.right * 1.45f, Color.red);
 
         if (upsideDown || leftSideDown || rightSideDown)
         {
@@ -143,12 +183,39 @@ public class CarMovement : MonoBehaviour
             wentUpsideDown = Time.time;
         }
 
-        applyAntiroll(frontLeft, frontRight, frontAntiRoll);
-        applyAntiroll(backLeft, backRight, backAntiRoll);
+        ApplyAntiroll(frontLeft, frontRight, frontAntiRoll);
+        ApplyAntiroll(backLeft, backRight, backAntiRoll);
         UIManager.main.SetSpeed(rb.linearVelocity.magnitude);
     }
 
-    private void applyAntiroll(WheelCollider leftWheel, WheelCollider rightWheel, float antiRollAmount)
+    public void Accelerate(float acceleration)
+    {
+        aIAcceleration = acceleration;
+    }
+
+    public void Steer(float steeringAngle)
+    {
+        aITurnAngle = Mathf.Clamp(steeringAngle, -maxTurnAngle, maxTurnAngle);
+        // Debug.Log($"Steering, angle {steeringAngle}, clamped {aITurnAngle}");
+    }
+
+    public bool Brake()
+    {
+        Debug.Log($"Braking! Velocity: {rb.linearVelocity.magnitude}");
+        aIAcceleration = 0;
+        return rb.linearVelocity.magnitude < 0.333f;
+    }
+
+    public float GetSpeed()
+    {
+        return rb.linearVelocity.magnitude;
+    }
+
+    public void ReverseTurnAngle() {
+        aITurnAngle = -currentTurnAngle;
+    }
+
+    private void ApplyAntiroll(WheelCollider leftWheel, WheelCollider rightWheel, float antiRollAmount)
     {
         float travelL = 1.0f;
         float travelR = 1.0f;

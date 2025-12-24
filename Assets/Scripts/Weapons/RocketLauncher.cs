@@ -28,7 +28,7 @@ public class RocketLauncher : MonoBehaviour, IWeapon
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawLine(transform.position, transform.position + transform.forward * searchRadius, Color.red);
+        // Debug.DrawLine(transform.position, transform.position + transform.forward * searchRadius, Color.red);
         Debug.DrawLine(transform.position, transform.position + Quaternion.Euler(0, searchAngle, 0) * transform.forward * searchRadius, Color.green);
         Debug.DrawLine(transform.position, transform.position + Quaternion.Euler(0, -searchAngle, 0) * transform.forward * searchRadius, Color.green);
         Debug.DrawLine(transform.position, transform.position + Quaternion.Euler(-searchAngle, 0, 0) * transform.forward * searchRadius, Color.green);
