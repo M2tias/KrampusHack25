@@ -128,9 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZoneWall
   startDelay: 30
-  stableDelay: 25
-  shrinkSteps: 5
-  shrinkTime: 25
+  stableDelay: 5
+  shrinkSteps: 30
+  shrinkTime: 30
   startRadius: 3000
   endRadius: 250
 --- !u!1001 &8015984901170801835

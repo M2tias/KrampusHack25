@@ -101,7 +101,6 @@ public class ZoneWall : MonoBehaviour
 
         float y = Camera.main.transform.position.y - transform.localScale.y / 2f - 135f;
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
-        Debug.Log(zoneCollider.bounds);
     }
 
     public bool CheckInside(Transform target)
