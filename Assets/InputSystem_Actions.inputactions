@@ -97,6 +97,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DropMine",
+                    "type": "Button",
+                    "id": "8bf0fa2b-dc35-4984-b16d-6a3a90125d39",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Weapon1",
                     "type": "Button",
                     "id": "a63912ef-9841-4054-9c1d-672590f07085",
@@ -518,6 +527,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8890901-4b33-4ac9-85f5-7dce1a7a6cb3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "DropMine",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Hp : MonoBehaviour
 {
@@ -13,19 +16,32 @@ public class Hp : MonoBehaviour
     private float zoneDamageCD;
     [SerializeField]
     private float zoneDamage;
+    [SerializeField]
+    private AudioPlayer audioPlayer;
+    [SerializeField]
+    private AudioPlayer mineAudioClip;
+    [SerializeField]
+    private Destruction destruction;
 
     private float currentHP;
     private float lastZoneDamage;
+    private bool isAI = false;
+    private int shieldLevel = -1;
+    private float shieldDamageMult = 0.95f;
+    private CharacterLoot loot;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentHP = 50f;
+        isAI = gameObject.tag == "Enemy";
+        currentHP = maxHP;
+        loot = GetComponent<CharacterLoot>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        shieldLevel = loot.GetPickupLevel(LootType.Shield);
         if (Time.time - lastZoneDamage > zoneDamageCD)
         {
             //bool insideZone = Physics.SphereCast(transform.position, 0.1f, transform.up, out RaycastHit _, 0.1f, LayerMask.GetMask("Zone"), QueryTriggerInteraction.Ignore);
@@ -48,6 +64,21 @@ public class Hp : MonoBehaviour
         {
             currentHP = maxHP;
         }
+
+        if (currentHP <= 0 || transform.position.y < -2)
+        {
+            if (isAI)
+            {
+                destruction.TriggerDestruction(false);
+                CharacterSpawner.main.EnemyKilled();
+                Destroy(gameObject);
+            }
+            else
+            {
+                destruction.TriggerDestruction(true);
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void IncreaseHP(int hpPickupLevel)
@@ -62,8 +93,9 @@ public class Hp : MonoBehaviour
 
     public void DoDamage(float damage)
     {
-        currentHP -= damage;
-        // TODO: Handle death
+        float coef = shieldLevel == -1 ? 1 : shieldDamageMult * shieldLevel;
+        currentHP -= damage * coef;
+        audioPlayer.PlayClip();
     }
 
     public bool IsMaxHP()
@@ -74,5 +106,18 @@ public class Hp : MonoBehaviour
         }
 
         return maxHP - currentHP < 0.001f;
+    }
+
+    public void PlayMineExplosion() {
+        mineAudioClip.PlayClip();
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.TryGetComponent(out Bullet bullet))
+        {
+            DoDamage(bullet.Damage);
+            Destroy(bullet.gameObject);
+        }
     }
 }

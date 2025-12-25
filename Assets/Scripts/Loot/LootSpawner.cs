@@ -23,6 +23,7 @@ public class LootSpawner : MonoBehaviour
         
         foreach (Transform point in transform)
         {
+            point?.Find("Cube").gameObject.SetActive(false);
             lootSpawnPoints.Add(point);
         }
 

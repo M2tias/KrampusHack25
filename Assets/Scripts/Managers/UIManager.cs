@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     private Speedometer speedometer;
     [SerializeField]
     private MinimapCompass compass;
+    [SerializeField]
+    private TextMeshProUGUI enemyCounter;
 
     private Dictionary<LootType, int> itemLevels = new();
     private Dictionary<LootType, InventoryIcon> itemUIElements = new();
@@ -82,5 +84,10 @@ public class UIManager : MonoBehaviour
     public void SetPlayerHP(float HP)
     {
         hpValue.text = Mathf.RoundToInt(HP).ToString();
+    }
+
+    public void SetEnemyCount(int count)
+    {
+        enemyCounter.text = count.ToString();
     }
 }

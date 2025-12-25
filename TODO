@@ -1,12 +1,31 @@
+☐ AI work
+    ☐ After looting. HARD STOP
+    ☐ Try to stop at the island borders, maybe hard stop at the end of route would be enough
+    ☐ Finding targets and attacking them
+    ✔ Forward stuck raycast from middle and both front corners @done(25-12-24 01:55)
+    ✔ Only go for pickups we don't have yet @done(25-12-24 02:48)
+    ✔ Set AI agent size bigger -> doesn't get stuck so easily hopefully @done(25-12-24 01:55)
+    ✔ Is car still twitching? @done(25-12-24 02:48)
+    ☐ Move agent under/parallel to car. Doesn't move car, only generates route
+    ☐ If AI has ramming (spikes or minigun), (mines or rockets) and (tires or shield)
+        ☐ Start patrolling
+            ☐ Pick random closeby handplaced node and drive there
+            ☐ If enemy close by/ahead, go to attack mode
+    ☐ AI with Zone
+        ☐ When looting: Remove pickups outside the zone (maybe don't spawn & delete existing)
+        ☐ When patrolling: Disable waypoints ouside the zone
+    ☐ If speed is high enough, instead of braking reverse or reverse&brake
+
 ☐ Create map
     ☐ 3D models
-        ☐ Islands?
+        ✔ Islands? @done(25-12-23 02:36)
         ☐ Buildings
-        ☐ Ramps?
+        ✔ Ramps? @done(25-12-23 02:36)
         ☐ Trees
     ☐ Character spawn points
     ☐ Loot spawn points
-    ☐ Portals
+    ✔ Portals @done(25-12-23 02:36)
+    ☐ Make portals cooler
 ☐ AI
     ☐ Different AI modes
         ☐ Looting mode
@@ -18,35 +37,42 @@
     ☐ Looting
     ☐ Shooting
     ☐ Ramming
+    ☐ Copy player car flip check to AI
+    ☐ Handle situation where cars are stuck on top of each other
 ☐ Fighting mechanics
     ☐ Ramming
-    ☐ Shooting
+    ✔ Shooting @done(25-12-23 02:36)
         ☐ Ammo?
     ☐ Shields
-    ☐ HP
-    ☐ Weapon switching?
+    ✔ HP @done(25-12-23 02:36)
+    ✔ Weapon switching? @done(25-12-23 02:36)
 ☐ Driving mechanics
-    ☐ Max speed? Upgradeable?
-    ☐ Camera
+    ✔ Max speed? Upgradeable? @done(25-12-23 02:36)
+    ✔ Camera @done(25-12-23 02:36)
     ☐ 
 ☐ Map mechanics
     ☐ Driving out of map -> GG
-    ☐ Map area gets smaller over time -> outside DoT
+    ✔ Map area gets smaller over time -> outside DoT @done(25-12-17 23:58)
     ☐ Drop loot everywhere, later game better loot
     ☐ Water is blocked except bridges
         ☐ Manual colliders?
 ☐ UI
-    ☐ Minimap
+    ✔ Minimap @done(25-12-23 02:56)
     ☐ Current weapon(s)
-    ☐ Compass
+    ✔ Compass @done(25-12-23 02:56)
     ☐ HP
     ☐ Shield
+    ☐ Minimap icons
+        ☐ Loot positions?
+        ☐ Enemies outside view? Arrow pointing towards
+        ☐ Portals? Arrows pointing to portals?
+        ☐ Figure out priorities for icons
 ☐ 3D models
     ☐ Car
     ✔ Shield @done(25-12-07 21:23)
-    ☐ Guns
-    ☐ Ramming spikes?
-    ☐ Different tiers, or just color?
+    ✔ Guns @done(25-12-16 23:07)
+    ✔ Ramming spikes? @done(25-12-16 23:07)
+    ✔ Different tiers, or just color? @done(25-12-16 23:07)
 ☐ Textures
     ☐ Road
     ☐ Grass

@@ -19,9 +19,10 @@ public class PathGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentPath.status == NavMeshPathStatus.PathComplete)
+        if (currentPath != null && currentPath.status == NavMeshPathStatus.PathComplete)
         {
             pathReady = true;
+            agent.enabled = false;
         }
     }
 
@@ -36,5 +37,11 @@ public class PathGenerator : MonoBehaviour
         agent.transform.position = transform.position;
         agent.CalculatePath(targetPosition, currentPath);
         this.currentPath = currentPath;
+    }
+
+    public void PathFinished()
+    {
+        pathReady = false;
+        currentPath = null;
     }
 }

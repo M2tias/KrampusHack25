@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8935372343596247072, guid: e62e87f713f4780f6b0554e6ba834c13, type: 3}
+      propertyPath: isPlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8986670706186619125, guid: e62e87f713f4780f6b0554e6ba834c13, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -155,6 +159,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 875987383585327533, guid: e62e87f713f4780f6b0554e6ba834c13, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6200448171730876641}
+    - targetCorrespondingSourceObject: {fileID: 875987383585327533, guid: e62e87f713f4780f6b0554e6ba834c13, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7638296922014453134}
   m_SourcePrefab: {fileID: 100100000, guid: e62e87f713f4780f6b0554e6ba834c13, type: 3}
 --- !u!4 &1243605484905067665 stripped
 Transform:
@@ -215,6 +222,19 @@ NavMeshAgent:
   m_BaseOffset: 0.66
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7638296922014453134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6402104408243887496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c8231a27328c7e85b5e2459b117bbff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PathGenerator
+  agent: {fileID: 4505130276786365716}
 --- !u!146 &7604342219099443131 stripped
 WheelCollider:
   m_CorrespondingSourceObject: {fileID: 4429559739124849566, guid: e62e87f713f4780f6b0554e6ba834c13, type: 3}

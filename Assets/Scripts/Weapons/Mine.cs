@@ -40,6 +40,7 @@ public class Mine : MonoBehaviour
 
         Hp hp = c.gameObject.GetComponent<Hp>();
         hp.DoDamage(damage);
+        hp.PlayMineExplosion();
         // TODO: particles
         Destroy(gameObject);
     }

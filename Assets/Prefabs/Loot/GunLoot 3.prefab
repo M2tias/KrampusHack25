@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1108407877133966177, guid: 84d46d147bc22b4418957532ee3b3162, type: 3}
       propertyPath: data.LootLevel
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1202782751235837184, guid: 84d46d147bc22b4418957532ee3b3162, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

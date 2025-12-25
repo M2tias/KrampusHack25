@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CharacterLoot : MonoBehaviour
 {
+    [SerializeField]
+    private AudioPlayer audioPlayer;
     private Dictionary<LootType, PickupData> pickedUpLoot = new();
 
     private Hp hp;
@@ -41,6 +43,10 @@ public class CharacterLoot : MonoBehaviour
                 {
                     hp.IncreaseHP(pickup.LootLevel);
                     Destroy(maybeLoot.gameObject);
+                    if (!isAI)
+                    {
+                        audioPlayer.PlayClip();
+                    }
                 }
             }
             else if (pickedUpLoot.TryGetValue(pickup.LootType, out PickupData oldPickup))
@@ -53,6 +59,7 @@ public class CharacterLoot : MonoBehaviour
                     if (!isAI)
                     {
                         UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
+                        audioPlayer.PlayClip();
                     }
                 }
             }
@@ -63,6 +70,7 @@ public class CharacterLoot : MonoBehaviour
                 if (!isAI)
                 {
                     UIManager.main.Pickup(pickup.LootType, pickup.LootLevel);
+                    audioPlayer.PlayClip();
                 }
                 Destroy(maybeLoot.gameObject);
             }

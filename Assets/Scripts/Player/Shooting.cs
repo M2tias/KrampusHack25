@@ -7,6 +7,7 @@ public class Shooting : MonoBehaviour
     private GameObject spikeModel;
 
     private InputAction shootAction;
+    private InputAction dropMineAction;
     private InputAction weapon1Action;
 
     private InputAction weapon2Action;
@@ -24,11 +25,14 @@ public class Shooting : MonoBehaviour
     private Rigidbody rb;
 
     private bool hasSpikes = false;
+    private bool isAI = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        isAI = gameObject.tag == "Enemy";
         shootAction = InputSystem.actions.FindAction("Shoot");
+        dropMineAction = InputSystem.actions.FindAction("DropMine");
         weapon1Action = InputSystem.actions.FindAction("Weapon1");
         weapon2Action = InputSystem.actions.FindAction("Weapon2");
         weapon3Action = InputSystem.actions.FindAction("Weapon3");
@@ -43,34 +47,61 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // TODO: hold to fire & cooldown
-        if (shootAction.IsPressed() && currentWeapon != null)
-        {
-            currentWeapon.Shoot();
-        }
-
-        if (weapon1Action.WasPerformedThisFrame() && loot.GetPickupLevel(LootType.Minigun) > 0)
-        {
-            Debug.Log("Use minigun");
-            currentWeapon = minigun;
-        }
-        else if (weapon2Action.WasPerformedThisFrame() && loot.GetPickupLevel(LootType.Rockets) > 0)
-        {
-            Debug.Log("Use rocket launcher");
-            currentWeapon = rocketLauncher;
-        }
-        else if (weapon3Action.WasPerformedThisFrame() && loot.GetPickupLevel(LootType.Mines) > 0)
-        {
-            Debug.Log("Use mines");
-            currentWeapon = mineDeployer;
-        }
-
         if (!hasSpikes)
         {
             hasSpikes = loot.GetPickupLevel(LootType.RammingSpike) > 0;
             spikeModel.SetActive(hasSpikes);
-        } else {
+        }
+        else
+        {
             spikes.SetSpeed(rb.linearVelocity.magnitude);
         }
+
+        if (isAI)
+        {
+            return;
+        }
+
+        // TODO: hold to fire & cooldown
+        if (shootAction.IsPressed() && minigun != null && loot.GetPickupLevel(LootType.Minigun) > 0)
+        {
+            minigun.Shoot();
+        }
+        else if (dropMineAction.IsPressed() && mineDeployer != null && loot.GetPickupLevel(LootType.Mines) > 0)
+        {
+            mineDeployer.Shoot();
+        }
+
+        // if (weapon1Action.WasPerformedThisFrame() && loot.GetPickupLevel(LootType.Minigun) > 0)
+        // {
+        //     Debug.Log("Use minigun");
+        //     currentWeapon = minigun;
+        // }
+        // else if (weapon2Action.WasPerformedThisFrame() && loot.GetPickupLevel(LootType.Rockets) > 0)
+        // {
+        //     Debug.Log("Use rocket launcher");
+        //     currentWeapon = rocketLauncher;
+        // }
+        // else if (weapon3Action.WasPerformedThisFrame() && loot.GetPickupLevel(LootType.Mines) > 0)
+        // {
+        //     Debug.Log("Use mines");
+        //     currentWeapon = mineDeployer;
+        // }
+    }
+
+    public void JustShoot()
+    {
+        if (loot.GetPickupLevel(LootType.Rockets) > 0)
+        {
+            Debug.Log("Use rocket launcher");
+            currentWeapon = rocketLauncher;
+        }
+        else if (loot.GetPickupLevel(LootType.Minigun) > 0)
+        {
+            Debug.Log("Use minigun");
+            currentWeapon = minigun;
+        }
+
+        currentWeapon?.Shoot();
     }
 }

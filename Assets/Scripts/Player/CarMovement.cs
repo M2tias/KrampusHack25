@@ -30,6 +30,14 @@ public class CarMovement : MonoBehaviour
     private float frontAntiRoll;
     [SerializeField]
     private float backAntiRoll;
+    [SerializeField]
+    private AudioPlayer introSpeech;
+    [SerializeField]
+    private AudioPlayer victorySpeech;
+    [SerializeField]
+    private AudioPlayer zoneIsShringkingSpeech;
+    [SerializeField]
+    private AudioPlayer zoneIsStableSpeech;
 
     private readonly float breakingForce = 650f;
     private readonly float maxTurnAngle = 30f;
@@ -55,6 +63,7 @@ public class CarMovement : MonoBehaviour
     private float aIAcceleration = 0f;
     private float aITurnAngle = 0f;
     private bool isAI = false;
+    private ZoneState previousState = ZoneState.Start;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -72,6 +81,10 @@ public class CarMovement : MonoBehaviour
         {
             GetComponent<EnemyLogic>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
+        }
+        else
+        {
+            Invoke("PlayIntroSpeech", 4f);
         }
     }
 
@@ -99,6 +112,29 @@ public class CarMovement : MonoBehaviour
         {
             acceleration = accelerationLevel[tireLevel];
             maxWheelRPM = WheelLevelMaxRPMs[tireLevel];
+        }
+
+        if (!isAI)
+        {
+            ZoneState currentState = ZoneWall.main.GetState();
+            if (currentState != previousState)
+            {
+                previousState = currentState;
+
+                if (currentState == ZoneState.Shrinking)
+                {
+                    PlayZoneIsSrinking();
+                }
+                else if (currentState == ZoneState.Stable)
+                {
+                    PlayZoneIsStable();
+                }
+            }
+
+            if (CharacterSpawner.main.IsVictory())
+            {
+                PlayVictorySpeech();
+            }
         }
     }
 
@@ -185,7 +221,10 @@ public class CarMovement : MonoBehaviour
 
         ApplyAntiroll(frontLeft, frontRight, frontAntiRoll);
         ApplyAntiroll(backLeft, backRight, backAntiRoll);
-        UIManager.main.SetSpeed(rb.linearVelocity.magnitude);
+        if (!isAI)
+        {
+            UIManager.main.SetSpeed(rb.linearVelocity.magnitude);
+        }
     }
 
     public void Accelerate(float acceleration)
@@ -201,7 +240,7 @@ public class CarMovement : MonoBehaviour
 
     public bool Brake()
     {
-        Debug.Log($"Braking! Velocity: {rb.linearVelocity.magnitude}");
+        // Debug.Log($"Braking! Velocity: {rb.linearVelocity.magnitude}");
         aIAcceleration = 0;
         return rb.linearVelocity.magnitude < 0.333f;
     }
@@ -211,7 +250,8 @@ public class CarMovement : MonoBehaviour
         return rb.linearVelocity.magnitude;
     }
 
-    public void ReverseTurnAngle() {
+    public void ReverseTurnAngle()
+    {
         aITurnAngle = -currentTurnAngle;
     }
 
@@ -246,4 +286,26 @@ public class CarMovement : MonoBehaviour
             rb.AddForceAtPosition(rightWheel.transform.up * antiRollForce, rightWheel.transform.position);
         }
     }
+
+    void PlayIntroSpeech()
+    {
+        introSpeech.PlayClip();
+    }
+
+    void PlayVictorySpeech()
+    {
+        victorySpeech.PlayClip();
+    }
+
+    void PlayZoneIsSrinking()
+    {
+        zoneIsShringkingSpeech.PlayClip();
+    }
+
+    void PlayZoneIsStable()
+    {
+
+        zoneIsStableSpeech.PlayClip();
+    }
+
 }

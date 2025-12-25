@@ -31,8 +31,10 @@ public class ZoneWall : MonoBehaviour
 
     private CapsuleCollider zoneCollider;
 
-    void Awake() {
-        if (main != null) {
+    void Awake()
+    {
+        if (main != null)
+        {
             Debug.LogError("Zone wall already exists!");
             Destroy(gameObject);
         }
@@ -96,14 +98,24 @@ public class ZoneWall : MonoBehaviour
         {
             // End state, nothing to do
         }
+
+        float y = Camera.main.transform.position.y - transform.localScale.y / 2f - 135f;
+        transform.position = new Vector3(transform.position.x, y, transform.position.z);
+        Debug.Log(zoneCollider.bounds);
     }
 
-    public bool CheckInside(Transform target) {
-        if (zoneCollider.bounds.Contains(target.position)) {
+    public bool CheckInside(Transform target)
+    {
+        if (zoneCollider.bounds.Contains(target.position))
+        {
             return true;
         }
 
         return false;
+    }
+
+    public ZoneState GetState() {
+        return state;
     }
 }
 
